@@ -72,18 +72,18 @@ with tab2:
 
     
     
-
-    # Race Bar Chart to better show the change in attacks numbers over the years for different regions
+    st.divider()
+    st.write("Race Bar Chart to better show the change in attacks numbers over the years for different regions")
     
-    # @st.cache_data
-    # def show_bcr():
-    #     chart = bcr.bar_chart_race(df=cumulative_attacks_df, filename=None,
-    #             period_length=1000, 
-    #             title="Cumulative count of terrorist attacks per region (1970 and 2017)",  
-    #             perpendicular_bar_func='median')
-    #     return chart
+    @st.cache_data
+    def show_bcr():
+        chart = bcr.bar_chart_race(df=cumulative_attacks_df, filename=None,
+                period_length=1000, 
+                title="Cumulative count of terrorist attacks per region (1970 and 2017)",  
+                perpendicular_bar_func='median')
+        return chart
 
-    # st.write(show_bcr())
+    st.write(show_bcr())
     
 
 with tab3:
