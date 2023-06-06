@@ -3,6 +3,3 @@ maxMessageSize = 300
 
 [theme]
 base = "dark"
-
-[global]
-dataFrameSerialization="legacy"
