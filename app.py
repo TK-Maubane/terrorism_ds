@@ -15,7 +15,7 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs(["About", "Question 1", "Question 2", "Qu
 @st.cache_data
 def load_data():
     df = pd.read_csv("globalterrorismdb_0718dist.tar.bz2", compression="bz2", low_memory=False)
-    df = df.drop(['approxdate', 'resolution'], axis=1)
+    df = df.drop(['approxdate', 'resolution', 'country_txt'], axis=1)
     return df
 
 df = load_data()
@@ -237,14 +237,16 @@ with tab5:
     st.caption("You can also select and de-select regions to either show or hide them")        
 
 
-    locations_df = df[['iyear', 'country_txt', 'region_txt', 'latitude', 'longitude', 'weaptype1_txt']]
+    locations_df = df[['iyear', 'city', 'region_txt', 'latitude', 'longitude', 'weaptype1_txt']]
 
-    start_year, end_year = st.select_slider('Select a range of years to view',
-                            options=df.iyear.unique().tolist(), value=(1970, 1971))
+    # start_year, end_year = st.select_slider('Select a range of years to view',
+    #                         options=df.iyear.unique().tolist(), value=(1970, 1971))
+    start_year = 1999
+    end_year = 2000
     geo_df = df.loc[(df['iyear'] >= start_year) & (df['iyear'] <= end_year)]
 
     fig = px.scatter_geo(geo_df,lat='latitude',lon='longitude', symbol='region_txt',
-                     hover_name="country_txt", hover_data=['weaptype1_txt', 'region_txt'])
+                     hover_name="city", hover_data=['weaptype1_txt', 'region_txt'])
     fig.update_layout(title = 'World map', title_x=0.5, autosize=False, width=1200, height=800,)
  
     st.write(fig)
