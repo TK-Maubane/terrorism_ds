@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
 
-import bar_chart_race as bcr
+# import bar_chart_race as bcr
 import streamlit as st
 
 st.set_page_config(layout="wide")
@@ -20,7 +20,7 @@ def load_data():
 df = load_data()
 
 with tab1:
-    st.title("The goal of this EDA is to explore the global terrorist attack trends between 1970 - 2017")
+    st.subheader("The goal of this EDA is to explore the global terrorist attack trends between 1970 - 2017")
     st.divider()
     
     st.dataframe(df, use_container_width=True, height=500)
@@ -31,10 +31,10 @@ with tab1:
 
 with tab2:
     st.header("Question 1:")
-    st.write("How has the number of terrorist activities changed over the years?")
-    st.write("Are there certain regions where this trend is different from the global averages?")
+    st.markdown(" * How has the number of terrorist activities changed over the years? \n * Are there certain regions where this trend is different from the global averages? ")
     st.markdown("\n")
-    st.write("""A: Overall, there has been an increase in the number of attacks in the last 20 years. Before 1997, South Asia, Western Europe and South America had the most attacks. 
+    st.write("Answer:")
+    st.write("""Overall, there has been an increase in the number of attacks in the last 20 years. Before 1997, South Asia, Western Europe and South America had the most attacks. 
     There was never more than 1500 in any of those regions though. Around 2001, South Asia started having more attacks, however the standout regions is by far the Middle East and North Africa. 
     2014 experienced the most attacks in a single region, and was the most active year for terrorist attacks. Sub-Saharn Africa started climbing above the global average around 2011. 
     It's most active year was also 2014.""")
@@ -75,28 +75,28 @@ with tab2:
     st.divider()
     st.write("Race Bar Chart to better show the change in attacks numbers over the years for different regions")
     
-    @st.cache_data
-    def show_bcr():
-        chart = bcr.bar_chart_race(df=cumulative_attacks_df, filename=None,
-                period_length=1000, 
-                title="Cumulative count of terrorist attacks per region (1970 and 2017)",  
-                perpendicular_bar_func='median')
-        return chart
+    # import bar_chart_race as bcr
+    # @st.cache_data
+    # def show_bcr():
+    #     chart = bcr.bar_chart_race(df=cumulative_attacks_df, filename=None,
+    #             period_length=1000, 
+    #             title="Cumulative count of terrorist attacks per region (1970 and 2017)",  
+    #             perpendicular_bar_func='median')
+    #     return chart
 
-    st.write(show_bcr())
+    # st.write(show_bcr())
     
 
 with tab3:
     st.header("Question 2:")
-    st.write("Is the number of incidents and the number of casualties correlated?")
-    st.write(" Can you spot any irregularities or outliers?")
-    st.markdown("\n")
+    st.markdown("* Is the number of incidents and the number of casualties correlated? \n * Can you spot any irregularities or outliers? \n")
+    
     st.write("The correlation is: 0.83")
     st.write("This means that there is very high correlation between the number of terrorist attacks in a region, and the number of confirmed deaths due to the attacks.")
     st.write("Outliers are East Asia and North America, with North America being the only extreme outlier. It actually has a negative, albeit neglegible correlation between its attack number and number of kills.")
     st.divider()
     
-    col1, col2 = st.columns( [0.7, 0.3])
+    col1, col2 = st.columns( [0.6, 0.4])
     
     with col1:
         st.write("Correlation Matrix")
@@ -232,7 +232,9 @@ with tab4:
 with tab5:
     st.title("Question 4")
     st.write("Plot the locations of attacks on a map to visualize their regional spread")
-    st.caption("The map below allows you to zoom in and out of regions of interest, and play with the period of chou=ice.")        
+    st.caption("The map below allows you to zoom in and out of regions of interest, and play with the period of choice.")
+    st.caption("You can also select and de-select regions to either show or hide them")        
+
 
     locations_df = df[['iyear', 'country_txt', 'region_txt', 'latitude', 'longitude', 'weaptype1_txt']]
 
@@ -242,8 +244,8 @@ with tab5:
 
     fig = px.scatter_geo(geo_df,lat='latitude',lon='longitude', symbol='region_txt',
                      hover_name="country_txt", hover_data=['weaptype1_txt', 'region_txt'])
-    fig.update_layout(title = 'World map', title_x=0.5)
-
+    fig.update_layout(title = 'World map', title_x=0.5, autosize=False, width=1200, height=800,)
+ 
     st.write(fig)
     
 
