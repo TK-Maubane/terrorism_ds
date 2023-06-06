@@ -15,6 +15,7 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs(["About", "Question 1", "Question 2", "Qu
 @st.cache_data
 def load_data():
     df = pd.read_csv("globalterrorismdb_0718dist.tar.bz2", compression="bz2", low_memory=False)
+    df = df.drop(['approxdate', 'resolution'], axis=1)
     return df
 
 df = load_data()
